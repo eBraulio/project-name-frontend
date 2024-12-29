@@ -9,6 +9,32 @@ const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
 const RESPONSE_TYPE = "token";
 
+//Copy from FIREBASE
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyC3UdBdWqiwNUb8KWyQXecunC0hEpPJnwA",
+  authDomain: "spotify-project-ebr.firebaseapp.com",
+  projectId: "spotify-project-ebr",
+  storageBucket: "spotify-project-ebr.firebasestorage.app",
+  messagingSenderId: "64015018840",
+  appId: "1:64015018840:web:1f4316adf5c2ba4688d32d",
+  measurementId: "G-FW7P3Q1T8H",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+//Copy from FIREBASE
+
 function App() {
   const [token, setToken] = useState("");
   const [accessToken, setAccessToken] = useState("");
@@ -56,7 +82,6 @@ function App() {
       });
 
     console.log("Artis ID is" + artistID);
-
     //get request with artist ID grab all the albums from that artist
     const returnedAlbums = await fetch(
       "https://api.spotify.com/v1/artists/" +
