@@ -9,6 +9,13 @@ const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
 const RESPONSE_TYPE = "token";
 
+import {
+  getAuth,
+  signOut,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth"; //Firebase Google auth
+
 //Copy from FIREBASE
 
 // Import the functions you need from the SDKs you need
@@ -42,6 +49,7 @@ function App() {
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [currentUser, setCurrentUser] = React.useState({});
 
   useEffect(() => {
     const authParam = {
@@ -97,55 +105,111 @@ function App() {
       });
   }
   console.log(albums);
+
+  ///////////////Login Firebase
+  const handleGoogleLogin = () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider(); //Firebase Google auth
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+        console.log(user);
+        setCurrentUser(user);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+        console.error(error);
+      }); //Firebase Google auth
+  };
+
+  const handleGoogleLogout = () => {
+    console.log(currentUser);
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        setCurrentUser({});
+        console.log(currentUser);
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+
   return (
     <div className="App">
-      <h1>Spotify Artist Album Search</h1>
-      <div className="Container">
-        <form className="Form">
-          <input
-            placeholder="Artist"
-            onKeyDown={(event) => {
-              if (event.key == "Enter") {
-                search();
-              }
+      <div>
+        {!currentUser.uid && (
+          <button onClick={handleGoogleLogin}>Iniciar Sesión</button>
+        )}
+        {currentUser.uid && (
+          <button onClick={handleGoogleLogout}>Cerrar Sesión</button>
+        )}
+      </div>
+      {currentUser.uid && (
+        <div>
+          <h1>Spotify Artist Album Search</h1>
+          <div className="Container">
+            <form className="Form">
+              <input
+                placeholder="Artist"
+                onKeyDown={(event) => {
+                  if (event.key == "Enter") {
+                    search();
+                  }
+                }}
+                onChange={(event) => setSearchInput(event.target.value)}
+              ></input>
+              <button type="button" onClick={search}>
+                {" "}
+                Search!{" "}
+              </button>
+            </form>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              margin: "50 auto 70",
+              rowGap: 20,
+              columnGap: 18,
+              maxWidth: 880,
             }}
-            onChange={(event) => setSearchInput(event.target.value)}
-          ></input>
-          <button type="button" onClick={search}>
-            {" "}
-            Search!{" "}
-          </button>
-        </form>
-      </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          margin: "50 auto 70",
-          rowGap: 20,
-          columnGap: 18,
-          maxWidth: 880,
-        }}
-      >
-        {albums.map((album, i) => {
-          console.log(album);
-          return (
-            <div className="template__element">
-              <div className="element__image-container">
-                <img
-                  src={album.images[1].url || ""}
-                  alt={album.name || ""}
-                  className="element__image"
-                />
-              </div>
-              <div className="element__button">
-                <h2 className="element__text">{album.name}</h2>
-                <div className="element__container"></div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+          >
+            {albums.map((album, i) => {
+              console.log(album);
+              return (
+                <div className="template__element">
+                  <div className="element__image-container">
+                    <img
+                      src={album.images[1].url || ""}
+                      alt={album.name || ""}
+                      className="element__image"
+                    />
+                  </div>
+                  <div className="element__button">
+                    <h2 className="element__text">{album.name}</h2>
+                    <div className="element__container"></div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
