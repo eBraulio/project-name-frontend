@@ -161,6 +161,14 @@ function App() {
       </div>
       {currentUser.uid && (
         <div>
+          <div>
+            <h1>{currentUser.displayName}</h1>
+            <img
+              src={currentUser.photoURL || ""}
+              alt={currentUser.displayName || ""}
+              className=""
+            />
+          </div>
           <h1>Spotify Artist Album Search</h1>
           <div className="Container">
             <form className="Form">
