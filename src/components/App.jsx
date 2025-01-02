@@ -9,6 +9,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import homepage__picture from "../images/homepage__body-picture.jpeg";
 import header__logo from "../images/header__logo.png";
+import Footer from "./Footer";
 const CLIENT_ID = "cc4c47d7b9e44cf6a3030dde3ffeba1c";
 const CLIENT_SECRET = "0f685ecf082f4ccd8eb4f221c74de910";
 const REDIRECT_URI = "http://localhost:3000";
@@ -145,14 +146,21 @@ function App() {
               className="Homepage__header-logo"
             />
             <div className="Homepage__header-container">
-              <h1 className="Homepage__header-title">Search for Albums</h1>
+              <h1 className="Homepage__header-title">
+                Find your Favorite Artist's Discography
+              </h1>
               <span className="Homepage__header-title">at Spotify!</span>
             </div>
           </div>
           <div className="Homepage__body">
             <div className="Homepage__body-description">
               <h2 className="Homepage__body-title">Let's try it!</h2>
-              <button onClick={handleGoogleLogin}>Loging using Goolgle</button>
+              <button
+                onClick={handleGoogleLogin}
+                className="Homepage__button-login"
+              >
+                Login using Google
+              </button>
             </div>
             <img
               src={homepage__picture}
@@ -224,6 +232,7 @@ function App() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

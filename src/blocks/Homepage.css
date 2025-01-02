@@ -8,7 +8,7 @@
 
 .Homepage__body {
   display: flex;
-  padding: 50px 0;
+  padding: 20px 0;
 }
 
 .Homepage__body-description {
@@ -18,7 +18,42 @@
 
 .Homepage__body-cover {
   max-width: 500px;
-
   margin: auto;
   margin-right: 0;
+  box-shadow: 30px 0px 150px #0395f7a2;
+}
+
+.Homepage__body-title {
+  margin: 20px auto;
+}
+
+.Homepage__button-login {
+  background-image: linear-gradient(
+    to right,
+    #2f71e5 0%,
+    #12d8fa 51%,
+    #1fa2ff 100%
+  );
+}
+.Homepage__button-login {
+  box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  margin: 40px auto;
+  transition: 0.5s;
+  width: 360px;
+  height: 64px;
+  background-size: 200% auto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.Homepage__button-login:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
 }
