@@ -1,0 +1,24 @@
+.Homepage__header {
+  display: flex;
+}
+
+.Homepage__header-logo {
+  max-width: 100px;
+}
+
+.Homepage__body {
+  display: flex;
+  padding: 50px 0;
+}
+
+.Homepage__body-description {
+  margin: auto;
+  margin-left: 0;
+}
+
+.Homepage__body-cover {
+  max-width: 500px;
+
+  margin: auto;
+  margin-right: 0;
+}

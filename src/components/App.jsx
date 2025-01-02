@@ -1,31 +1,20 @@
-// src/App.js
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-const CLIENT_ID = "cc4c47d7b9e44cf6a3030dde3ffeba1c";
-const CLIENT_SECRET = "0f685ecf082f4ccd8eb4f221c74de910";
-const REDIRECT_URI = "http://localhost:3000";
-const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
-const RESPONSE_TYPE = "token";
-
 import {
   getAuth,
   signOut,
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth"; //Firebase Google auth
-
-//Copy from FIREBASE
-
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import homepage__picture from "../images/homepage__body-picture.jpeg";
+import header__logo from "../images/header__logo.png";
+const CLIENT_ID = "cc4c47d7b9e44cf6a3030dde3ffeba1c";
+const CLIENT_SECRET = "0f685ecf082f4ccd8eb4f221c74de910";
+const REDIRECT_URI = "http://localhost:3000";
+const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
+const RESPONSE_TYPE = "token";
 const firebaseConfig = {
   apiKey: "AIzaSyC3UdBdWqiwNUb8KWyQXecunC0hEpPJnwA",
   authDomain: "spotify-project-ebr.firebaseapp.com",
@@ -35,12 +24,8 @@ const firebaseConfig = {
   appId: "1:64015018840:web:1f4316adf5c2ba4688d32d",
   measurementId: "G-FW7P3Q1T8H",
 };
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-//Copy from FIREBASE
+const app = initializeApp(firebaseConfig); // Initialize Firebase
+const analytics = getAnalytics(app); // Initialize Firebase
 
 function App() {
   const [token, setToken] = useState("");
@@ -68,7 +53,7 @@ function App() {
       .then((data) => setAccessToken(data.access_token));
   }, []);
 
-  //search
+  //Search function with Spotify API
   async function search() {
     console.log("searching for " + searchInput);
 
@@ -106,7 +91,7 @@ function App() {
   }
   console.log(albums);
 
-  ///////////////Login Firebase
+  //Login Firebase
   const handleGoogleLogin = () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider(); //Firebase Google auth
@@ -151,16 +136,37 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        {!currentUser.uid && (
-          <button onClick={handleGoogleLogin}>Iniciar Sesión</button>
-        )}
-        {currentUser.uid && (
-          <button onClick={handleGoogleLogout}>Cerrar Sesión</button>
-        )}
-      </div>
+      {!currentUser.uid && (
+        <div className="Homepage__container">
+          <div className="Homepage__header">
+            <img
+              src={header__logo}
+              alt={"logo" || ""}
+              className="Homepage__header-logo"
+            />
+            <div className="Homepage__header-container">
+              <h1 className="Homepage__header-title">Search for Albums</h1>
+              <span className="Homepage__header-title">at Spotify!</span>
+            </div>
+          </div>
+          <div className="Homepage__body">
+            <div className="Homepage__body-description">
+              <h2 className="Homepage__body-title">Let's try it!</h2>
+              <button onClick={handleGoogleLogin}>Loging using Goolgle</button>
+            </div>
+            <img
+              src={homepage__picture}
+              alt={"homepage picture" || ""}
+              className="Homepage__body-cover"
+            />
+          </div>
+        </div>
+        //
+      )}
+
       {currentUser.uid && (
         <div>
+          <button onClick={handleGoogleLogout}>Cerrar Sesión</button>
           <div>
             <h1>{currentUser.displayName}</h1>
             <img
