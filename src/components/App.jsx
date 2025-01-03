@@ -8,7 +8,7 @@ import {
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import homepage__picture from "../images/homepage__body-picture.jpeg";
-import header__logo from "../images/header__logo.png";
+import Header from "./Header";
 import Footer from "./Footer";
 const CLIENT_ID = "cc4c47d7b9e44cf6a3030dde3ffeba1c";
 const CLIENT_SECRET = "0f685ecf082f4ccd8eb4f221c74de910";
@@ -137,21 +137,9 @@ function App() {
 
   return (
     <div className="App">
+      <Header handleGoogleLogout={handleGoogleLogout} />
       {!currentUser.uid && (
         <div className="Homepage__container">
-          <div className="Homepage__header">
-            <img
-              src={header__logo}
-              alt={"logo" || ""}
-              className="Homepage__header-logo"
-            />
-            <div className="Homepage__header-container">
-              <h1 className="Homepage__header-title">
-                Find your Favorite Artist's Discography
-              </h1>
-              <span className="Homepage__header-title">at Spotify!</span>
-            </div>
-          </div>
           <div className="Homepage__body">
             <div className="Homepage__body-description">
               <h2 className="Homepage__body-title">Let's try it!</h2>

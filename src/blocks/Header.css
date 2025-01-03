@@ -1,18 +1,19 @@
-.Homepage__header {
+.header {
   margin: 50px auto;
 }
 
-.Homepage__header-container {
+.header__container {
   margin: auto;
   margin-left: 0;
+  display: flex;
 }
 
-.Homepage__header-title {
+.header__title {
   margin: auto;
   margin-left: 30px;
 }
 
-.Homepage__header-logo {
+.header__logo {
   max-width: 70px;
   max-height: 70px;
 }
