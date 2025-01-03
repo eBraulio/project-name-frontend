@@ -8,6 +8,7 @@ import {
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import homepage__picture from "../images/homepage__body-picture.jpeg";
+import header__logo from "../images/header__logo.png";
 import Header from "./Header";
 import Footer from "./Footer";
 const CLIENT_ID = "cc4c47d7b9e44cf6a3030dde3ffeba1c";
@@ -162,33 +163,50 @@ function App() {
 
       {currentUser.uid && (
         <div>
-          <button onClick={handleGoogleLogout}>Cerrar Sesión</button>
-          <div>
-            <h1>{currentUser.displayName}</h1>
-            <img
-              src={currentUser.photoURL || ""}
-              alt={currentUser.displayName || ""}
-              className=""
-            />
-          </div>
-          <h1>Spotify Artist Album Search</h1>
-          <div className="Container">
-            <form className="Form">
-              <input
-                placeholder="Artist"
-                onKeyDown={(event) => {
-                  if (event.key == "Enter") {
-                    search();
-                  }
-                }}
-                onChange={(event) => setSearchInput(event.target.value)}
-              ></input>
-              <button type="button" onClick={search}>
-                {" "}
-                Search!{" "}
-              </button>
-            </form>
-          </div>
+          <section className="profile">
+            <div className="profile__avatar">
+              <img
+                className="profile__avatar-image"
+                src={currentUser.photoURL || ""}
+                alt={currentUser.displayName || ""}
+              />
+            </div>
+            <div className="profile__info">
+              <div className="profile__info-container">
+                <p className="profile__name">Hey, {currentUser.displayName}!</p>
+                <button
+                  onClick={handleGoogleLogout}
+                  className="profile__logout-button"
+                >
+                  Logout
+                </button>
+              </div>
+              <form className="profile__search">
+                <input
+                  required
+                  minLength="2"
+                  maxLength="50"
+                  className="profile__search-input"
+                  placeholder="Type any Artist to check its Albums"
+                  onKeyDown={(event) => {
+                    if (event.key == "Enter") {
+                      search();
+                    }
+                  }}
+                  onChange={(event) => setSearchInput(event.target.value)}
+                ></input>
+                <button
+                  type="button"
+                  className="profile__search-button"
+                  onClick={search}
+                >
+                  {" "}
+                  Search!{" "}
+                </button>
+              </form>
+            </div>
+          </section>
+          <div className="Container"></div>
           <div
             style={{
               display: "grid",
