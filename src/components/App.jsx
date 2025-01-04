@@ -206,36 +206,29 @@ function App() {
               </form>
             </div>
           </section>
-          <div className="Container"></div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              margin: "50 auto 70",
-              rowGap: 20,
-              columnGap: 18,
-              maxWidth: 880,
-            }}
-          >
+
+          <section className="elements" id="elements">
             {albums.map((album, i) => {
               console.log(album);
               return (
                 <div className="template__element">
                   <div className="element__image-container">
                     <img
-                      src={album.images[1].url || ""}
+                      src={album.images[0].url || ""}
                       alt={album.name || ""}
                       className="element__image"
                     />
                   </div>
-                  <div className="element__button">
+                  <div className="element__description">
                     <h2 className="element__text">{album.name}</h2>
-                    <div className="element__container"></div>
+                    <span className="element__release">
+                      Release date: ({album.release_date})
+                    </span>
                   </div>
                 </div>
               );
             })}
-          </div>
+          </section>
         </div>
       )}
       <Footer />
