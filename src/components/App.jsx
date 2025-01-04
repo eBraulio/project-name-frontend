@@ -8,9 +8,9 @@ import {
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import homepage__picture from "../images/homepage__body-picture.jpeg";
-import header__logo from "../images/header__logo.png";
 import Header from "./Header";
 import Footer from "./Footer";
+import ImagePopup from "./ImagePopup";
 const CLIENT_ID = "cc4c47d7b9e44cf6a3030dde3ffeba1c";
 const CLIENT_SECRET = "0f685ecf082f4ccd8eb4f221c74de910";
 const REDIRECT_URI = "http://localhost:3000";
@@ -38,6 +38,27 @@ function App() {
   const [searchInput, setSearchInput] = useState("");
   const [currentUser, setCurrentUser] = React.useState({});
 
+  //popup image
+  const [selectedCardName, setSelectedCardName] = React.useState("");
+  const [selectedCardPicture, setSelectedCardPicture] = React.useState("");
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+
+  function handleImageClick(album) {
+    handleCardClick(album);
+  }
+  function handleCardClick(album) {
+    setIsImagePopupOpen(true);
+    setSelectedCardName(album.target.alt);
+    setSelectedCardPicture(album.target.src);
+    //console.log(album.target.src);
+    //console.log(album.target.alt);
+  }
+
+  function closeAllPopups() {
+    setIsImagePopupOpen(false);
+  }
+  //popup image
+
   useEffect(() => {
     const authParam = {
       method: "POST",
@@ -57,7 +78,7 @@ function App() {
 
   //Search function with Spotify API
   async function search() {
-    console.log("searching for " + searchInput);
+    //console.log("searching for " + searchInput);
 
     //get request tusing search to get artist ID
     const artistParams = {
@@ -76,7 +97,7 @@ function App() {
         return data.artists.items[0].id;
       });
 
-    console.log("Artis ID is" + artistID);
+    //console.log("Artis ID is" + artistID);
     //get request with artist ID grab all the albums from that artist
     const returnedAlbums = await fetch(
       "https://api.spotify.com/v1/artists/" +
@@ -87,11 +108,11 @@ function App() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        //console.log(data);
         setAlbums(data.items);
       });
   }
-  console.log(albums);
+  //console.log(albums);
 
   //Login Firebase
   const handleGoogleLogin = () => {
@@ -106,7 +127,7 @@ function App() {
         const user = result.user;
         // IdP data available using getAdditionalUserInfo(result)
         // ...
-        console.log(user);
+        //console.log(user);
         setCurrentUser(user);
       })
       .catch((error) => {
@@ -123,13 +144,13 @@ function App() {
   };
 
   const handleGoogleLogout = () => {
-    console.log(currentUser);
+    //console.log(currentUser);
     const auth = getAuth();
     signOut(auth)
       .then(() => {
         // Sign-out successful.
         setCurrentUser({});
-        console.log(currentUser);
+        // console.log(currentUser);
       })
       .catch((error) => {
         // An error happened.
@@ -209,14 +230,15 @@ function App() {
 
           <section className="elements" id="elements">
             {albums.map((album, i) => {
-              console.log(album);
+              //console.log(album);
               return (
                 <div className="template__element">
                   <div className="element__image-container">
                     <img
-                      src={album.images[0].url || ""}
-                      alt={album.name || ""}
+                      src={album.images[0].url}
+                      alt={album.name + "," + " (" + album.release_date + ")"}
                       className="element__image"
+                      onClick={handleImageClick}
                     />
                   </div>
                   <div className="element__description">
@@ -232,6 +254,12 @@ function App() {
         </div>
       )}
       <Footer />
+      <ImagePopup
+        isOpen={isImagePopupOpen}
+        link={selectedCardPicture}
+        name={selectedCardName}
+        onClose={closeAllPopups}
+      />
     </div>
   );
 }
