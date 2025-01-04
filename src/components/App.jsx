@@ -35,8 +35,21 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
   const [currentUser, setCurrentUser] = React.useState({});
+  ////
+  const [searchInput, setSearchInput] = useState("");
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    search(searchInput);
+  };
+  const handleButtonClick = (event) => {
+    event.preventDefault();
+    search(searchInput);
+  };
+  const handleChange = (event) => {
+    setSearchInput(event.target.value);
+  };
+  ////
 
   //popup image
   const [selectedCardName, setSelectedCardName] = React.useState("");
@@ -202,24 +215,19 @@ function App() {
                   Logout
                 </button>
               </div>
-              <form className="profile__search">
+              <form className="profile__search" onSubmit={handleSubmit}>
                 <input
                   required
                   minLength="2"
                   maxLength="50"
                   className="profile__search-input"
                   placeholder="Type any Artist to check its Albums"
-                  onKeyDown={(event) => {
-                    if (event.key == "Enter") {
-                      search();
-                    }
-                  }}
-                  onChange={(event) => setSearchInput(event.target.value)}
+                  onChange={handleChange}
                 ></input>
                 <button
                   type="button"
                   className="profile__search-button"
-                  onClick={search}
+                  onClick={handleButtonClick}
                 >
                   {" "}
                   Search!{" "}
