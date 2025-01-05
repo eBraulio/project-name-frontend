@@ -74,7 +74,6 @@ function App() {
   function closeAllPopups() {
     setIsImagePopupOpen(false);
   }
-  //popup image
 
   useEffect(() => {
     const authParam = {
@@ -185,6 +184,15 @@ function App() {
       currentUser,
     };
   };
+
+  // useEffect(() => {
+  //   const auth = getAuth();
+  //   const provider = new GoogleAuthProvider();
+  //   onAuthStateChanged(auth, (currentState) => {
+  //     setCurrentUser(currentState);
+  //     console.log(currentState);
+  //   });
+  // }, []);
 
   const handleGoogleLogout = () => {
     //console.log(currentUser);
