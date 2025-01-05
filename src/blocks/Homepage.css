@@ -8,7 +8,7 @@
 
 .Homepage__body {
   display: flex;
-  padding: 20px 0;
+  padding: 0;
 }
 
 .Homepage__body-description {
@@ -21,6 +21,14 @@
   margin: auto;
   margin-right: 0;
   box-shadow: 30px 0px 150px #0395f7a2;
+  filter: brightness(90%);
+}
+
+.Homepage__body-cover:hover {
+  filter: brightness(100%);
+  transform: scale(1.01);
+  transition: 0.1s;
+  opacity: 1;
 }
 
 .Homepage__body-title {

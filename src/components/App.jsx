@@ -15,6 +15,7 @@ import homepage__picture from "../images/homepage__body-picture.jpeg";
 import Header from "./Header";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
+import Preloader from "./Preloader";
 const CLIENT_ID = "cc4c47d7b9e44cf6a3030dde3ffeba1c";
 const CLIENT_SECRET = "0f685ecf082f4ccd8eb4f221c74de910";
 const REDIRECT_URI = "http://localhost:3000";
@@ -34,6 +35,7 @@ const app = initializeApp(firebaseConfig); // Initialize Firebase
 const analytics = getAnalytics(app); // Initialize Firebase
 
 function App() {
+  const [isPreloading, setIsPreloading] = React.useState(false);
   const [token, setToken] = useState("");
   const [accessToken, setAccessToken] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -95,7 +97,7 @@ function App() {
   //Search function with Spotify API
   async function handleSearch() {
     console.log("searching for " + searchInput);
-
+    setIsPreloading(true);
     //get request tusing search to get artist ID
     const artistParams = {
       method: "GET",
@@ -111,6 +113,7 @@ function App() {
     )
       .then((response) => response.json())
       .then((data) => {
+        setIsPreloading(false);
         return data.artists.items[0].id;
       })
       .catch(function (e) {
@@ -288,6 +291,9 @@ function App() {
                 </button>
               </form>
             </div>
+          </section>
+          <section className="preloader__container">
+            {isPreloading ? <Preloader /> : ""}
           </section>
 
           {
