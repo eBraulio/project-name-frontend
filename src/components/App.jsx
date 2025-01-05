@@ -212,6 +212,21 @@ function App() {
       });
   };
 
+  function handleGitHubClick() {
+    window.open("https://github.com/eBraulio", "_blank");
+  }
+
+  function handleLinkedinClick() {
+    window.open(
+      "https://www.linkedin.com/in/braulio-banuelos-8bb9b579",
+      "_blank"
+    );
+  }
+
+  function handleInstagramClick() {
+    window.open("https://www.instagram.com/vanbrolok", "_blank");
+  }
+
   return (
     <div className="App">
       <Header handleGoogleLogout={handleGoogleLogout} />
@@ -302,7 +317,11 @@ function App() {
           }
         </div>
       )}
-      <Footer />
+      <Footer
+        onGitHubClick={handleGitHubClick}
+        onLinkedinClick={handleLinkedinClick}
+        onInstagramClick={handleInstagramClick}
+      />
       <ImagePopup
         isOpen={isImagePopupOpen}
         link={selectedCardPicture}
