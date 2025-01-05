@@ -144,10 +144,6 @@ function App() {
         // In memory persistence will be applied to the signed in Google user
         // even though the persistence was set to 'none' and a page redirect
         // occurred.
-        onAuthStateChanged(auth, (currentState) => {
-          setCurrentUser(currentState);
-          console.log(currentState);
-        });
         signInWithPopup(auth, provider)
           .then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
@@ -185,14 +181,15 @@ function App() {
     };
   };
 
-  // useEffect(() => {
-  //   const auth = getAuth();
-  //   const provider = new GoogleAuthProvider();
-  //   onAuthStateChanged(auth, (currentState) => {
-  //     setCurrentUser(currentState);
-  //     console.log(currentState);
-  //   });
-  // }, []);
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (currentState) => {
+      if (currentState !== null) {
+        setCurrentUser(currentState);
+      } else {
+      }
+    });
+  }, []);
 
   const handleGoogleLogout = () => {
     //console.log(currentUser);
@@ -201,6 +198,7 @@ function App() {
       .then(() => {
         // Sign-out successful.
         setCurrentUser({});
+        setUser({});
         setAlbums([]);
         // console.log(currentUser);
       })
