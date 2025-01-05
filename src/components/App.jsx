@@ -4,6 +4,10 @@ import {
   signOut,
   signInWithPopup,
   GoogleAuthProvider,
+  setPersistence,
+  inMemoryPersistence,
+  browserLocalPersistence,
+  onAuthStateChanged,
 } from "firebase/auth"; //Firebase Google auth
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -40,11 +44,11 @@ function App() {
   const [searchInput, setSearchInput] = useState("");
   const handleSubmit = async (event) => {
     event.preventDefault();
-    search(searchInput);
+    handleSearch(searchInput);
   };
   const handleButtonClick = (event) => {
     event.preventDefault();
-    search(searchInput);
+    handleSearch(searchInput);
   };
   const handleChange = (event) => {
     setSearchInput(event.target.value);
@@ -90,7 +94,7 @@ function App() {
   }, []);
 
   //Search function with Spotify API
-  async function search() {
+  async function handleSearch() {
     //console.log("searching for " + searchInput);
 
     //get request tusing search to get artist ID
@@ -108,9 +112,12 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         return data.artists.items[0].id;
+      })
+      .catch(function (e) {
+        console.log("error is" + e);
       });
 
-    //console.log("Artis ID is" + artistID);
+    console.log("Artis ID is" + artistID);
     //get request with artist ID grab all the albums from that artist
     const returnedAlbums = await fetch(
       "https://api.spotify.com/v1/artists/" +
@@ -130,30 +137,53 @@ function App() {
   //Login Firebase
   const handleGoogleLogin = () => {
     const auth = getAuth();
-    const provider = new GoogleAuthProvider(); //Firebase Google auth
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-        //console.log(user);
-        setCurrentUser(user);
+    //const provider = new GoogleAuthProvider(); //Firebase Google auth
+    //persistance
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        const provider = new GoogleAuthProvider();
+        // In memory persistence will be applied to the signed in Google user
+        // even though the persistence was set to 'none' and a page redirect
+        // occurred.
+        onAuthStateChanged(auth, (currentState) => {
+          setCurrentUser(currentState);
+          console.log(currentState);
+        });
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            // IdP data available using getAdditionalUserInfo(result)
+            // ...
+            //console.log(user);
+            setCurrentUser(user);
+          })
+          .catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+            console.error(error);
+          }); //Firebase Google auth
+        //return signInWithRedirect(auth, provider);
       })
       .catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-        console.error(error);
-      }); //Firebase Google auth
+      });
+    //persistance
+    return {
+      handleGoogleLogin,
+      currentUser,
+    };
   };
 
   const handleGoogleLogout = () => {
@@ -163,6 +193,7 @@ function App() {
       .then(() => {
         // Sign-out successful.
         setCurrentUser({});
+        setAlbums([]);
         // console.log(currentUser);
       })
       .catch((error) => {
@@ -218,17 +249,14 @@ function App() {
               <form className="profile__search" onSubmit={handleSubmit}>
                 <input
                   required
+                  type="text"
                   minLength="2"
                   maxLength="50"
                   className="profile__search-input"
                   placeholder="Type any Artist to check its Albums"
                   onChange={handleChange}
                 ></input>
-                <button
-                  type="button"
-                  className="profile__search-button"
-                  onClick={handleButtonClick}
-                >
+                <button type="submit" className="profile__search-button">
                   {" "}
                   Search!{" "}
                 </button>
@@ -236,29 +264,31 @@ function App() {
             </div>
           </section>
 
-          <section className="elements" id="elements">
-            {albums.map((album, i) => {
-              //console.log(album);
-              return (
-                <div className="template__element">
-                  <div className="element__image-container">
-                    <img
-                      src={album.images[0].url}
-                      alt={album.name + "," + " (" + album.release_date + ")"}
-                      className="element__image"
-                      onClick={handleImageClick}
-                    />
+          {
+            <section className="elements" id="elements">
+              {albums.map((album, i) => {
+                //console.log(album);
+                return (
+                  <div className="template__element">
+                    <div className="element__image-container">
+                      <img
+                        src={album.images[0].url}
+                        alt={album.name + "," + " (" + album.release_date + ")"}
+                        className="element__image"
+                        onClick={handleImageClick}
+                      />
+                    </div>
+                    <div className="element__description">
+                      <h2 className="element__text">{album.name}</h2>
+                      <span className="element__release">
+                        Release date: ({album.release_date})
+                      </span>
+                    </div>
                   </div>
-                  <div className="element__description">
-                    <h2 className="element__text">{album.name}</h2>
-                    <span className="element__release">
-                      Release date: ({album.release_date})
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </section>
+                );
+              })}
+            </section>
+          }
         </div>
       )}
       <Footer />
