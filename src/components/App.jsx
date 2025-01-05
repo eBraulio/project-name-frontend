@@ -94,7 +94,7 @@ function App() {
 
   //Search function with Spotify API
   async function handleSearch() {
-    //console.log("searching for " + searchInput);
+    console.log("searching for " + searchInput);
 
     //get request tusing search to get artist ID
     const artistParams = {
@@ -104,6 +104,7 @@ function App() {
         Authorization: "Bearer " + accessToken,
       },
     };
+
     const artistID = await fetch(
       "https://api.spotify.com/v1/search?q=" + searchInput + "&type=artist",
       artistParams
@@ -116,20 +117,24 @@ function App() {
         console.log("error is" + e);
       });
 
-    console.log("Artis ID is" + artistID);
-    //get request with artist ID grab all the albums from that artist
-    const returnedAlbums = await fetch(
-      "https://api.spotify.com/v1/artists/" +
-        artistID +
-        "/albums" +
-        "?include_groups=album&market=ES&limit=15",
-      artistParams
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        //console.log(data);
-        setAlbums(data.items);
-      });
+    if (artistID !== undefined) {
+      console.log("Artis ID is" + artistID);
+      //get request with artist ID grab all the albums from that artist
+      const returnedAlbums = await fetch(
+        "https://api.spotify.com/v1/artists/" +
+          artistID +
+          "/albums" +
+          "?include_groups=album&market=ES&limit=15",
+        artistParams
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setAlbums(data.items);
+        });
+    } else {
+      console.log("Artis not found, Dummy ID is" + "5aMPb0lNHL7cQe6oICdcTt");
+    }
   }
   //console.log(albums);
 

@@ -9,7 +9,7 @@ export default function Header() {
           <h1 className="header__title">
             Find your Favorite Artist's Discography
           </h1>
-          <span className="header__title">at Spotify!</span>
+          <span className="header__title">using Spotify API</span>
         </div>
       </div>
     </header>

@@ -2,6 +2,9 @@ import linkedin__logo from "../images/linkedin_640.png";
 import instagram__logo from "../images/instagram_640.png";
 
 export default function Footer() {
+  // function NewTab(url) {
+  //   window.open(url, "_blank");
+  // }
   return (
     <footer className="footer">
       <div className="footer__container">
@@ -24,8 +27,9 @@ export default function Footer() {
             </li>
             <li className="footer__list-item">
               <a
-                href="https://www.instagram.com/vanbrolok"
                 className="footer__social-link"
+                href="https://www.instagram.com/vanbrolok"
+                //onclick={NewTab("https://www.instagram.com/vanbrolok")}
               >
                 <img
                   src={instagram__logo}

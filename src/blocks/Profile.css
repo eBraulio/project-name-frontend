@@ -14,6 +14,7 @@
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
+  box-shadow: -30px 0px 100px #0395f7a2;
 }
 
 .profile__avatar:hover .profile__avatar-image {
@@ -98,12 +99,17 @@
 }
 
 .profile__search-input {
-  height: 48px;
+  height: 44px;
   border-radius: 100px;
   padding: 0px;
   padding-left: 24px;
-  border: 1px solid #b6bcbf;
+  border: 3px solid #b6bcbf;
   width: 55%;
+}
+
+.profile__search-input:hover {
+  border: 3px solid #0395f7a2;
+  transition: 1s;
 }
 
 .profile__search-input::placeholder {
