@@ -63,9 +63,35 @@
   height: 16px;
 }
 
+@media screen and (min-width: 885px) and (max-width: 1024px) {
+  .footer__container {
+    margin-right: 10px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 885px) {
+  .footer__container {
+    margin-right: 20px;
+    margin-left: 10px;
+  }
+}
+
 @media screen and (max-width: 768px) {
+  .footer__container {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
   .footer__copyright {
     max-width: 282px;
     height: 14px;
+    font-size: 14px;
+  }
+
+  .footer__social-heading {
+    font-size: 14px;
+  }
+
+  .footer__social-link {
+    font-size: 14px;
   }
 }

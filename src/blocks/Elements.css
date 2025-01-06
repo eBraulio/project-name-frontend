@@ -57,6 +57,9 @@
   white-space: nowrap;
   overflow: hidden;
 }
+.element__release {
+  font-size: 14px;
+}
 
 .element__button-container {
   margin: auto;
@@ -93,4 +96,45 @@
   background-position: right center;
   color: #fff;
   text-decoration: none;
+}
+
+@media screen and (min-width: 721px) and (max-width: 1024px) {
+  .elements {
+    margin: 50px 10px 30px;
+  }
+}
+
+@media screen and (min-width: 500px) and (max-width: 720px) {
+  .elements {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 50px 20px 30px 10px;
+  }
+  .element__text {
+    font-size: 18px;
+  }
+  .element__release {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 499px) {
+  .elements {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 20px;
+    margin-top: 42px;
+  }
+  .element__image {
+    align-items: center;
+    margin: auto;
+  }
+  .element__text {
+    font-size: 18px;
+  }
+  .element__release {
+    font-size: 14px;
+  }
 }

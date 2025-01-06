@@ -82,107 +82,6 @@
   opacity: 60%;
   transition: 0.4s ease-in all;
 }
-/* other */
-
-/* .popup__container {
-  background-color: #fff;
-
-  padding: 34px 36px 36px 36px;
-  border-radius: 10px;
-  width: 358px;
-  min-height: 260px;
-  z-index: 1000;
-}
-
-.popup__container-avatar {
-  min-height: auto;
-}
-
-.popup__container_type_delete-confirmation {
-  min-height: auto;
-}
-
-.popup__title {
-  font-family: Inter;
-  line-height: 29px;
-  font-size: 24px;
-  font-weight: 900;
-
-  margin: 0 auto 54px 0;
-  letter-spacing: 0em;
-  text-align: left;
-  max-width: 330px;
-  max-height: 23px;
-  color: #000;
-}
-
-.popup__edit {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.popup__input {
-  width: 100%;
-  height: 14px;
-  padding-bottom: 13px;
-  font-family: Inter;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.94px;
-  border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-.popup__input_type_error {
-  border-bottom: 1px solid red;
-}
-
-.popup__error {
-  color: red;
-  font-family: Inter;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 15px;
-  margin-left: 0;
-  margin-bottom: 48px;
-}
-
-.popup__save-button {
-  background-color: #000;
-  width: 100%;
-  height: 50.15px;
-  border-radius: 2px;
-
-  font-family: Inter;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 22px;
-  text-align: center;
-  color: #ffffff;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.popup__button-disabled {
-  background-color: white;
-  color: #cccccc;
-  opacity: 0.3;
-  border: 1px solid #000000;
-  pointer-events: none;
-}
-
-.popup__save-button:hover {
-  opacity: 80%;
-  transition: 0.4s ease-in all;
-}
-
-.popup__close-form {
-  top: -142px;
-  right: -77px;
-}
-
- */
 
 @media screen and (max-width: 768px) {
   .popup__container {
@@ -205,33 +104,11 @@
     transform: scale(0.65);
     top: -176px;
     right: -35px;
-    z-index: 2;
+    z-index: 1000;
   }
 
   .popup__close-image {
     top: -41px;
     right: -41px;
-  }
-
-  .popup__input {
-    width: 100%;
-    height: 17px;
-    padding-bottom: 9px;
-  }
-
-  .popup__input-description {
-    margin-bottom: 46px;
-  }
-
-  .popup__save-button {
-    width: 100%;
-    height: 46px;
-    border-radius: 2px;
-
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
   }
 }
