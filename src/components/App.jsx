@@ -8,7 +8,7 @@ import {
   inMemoryPersistence,
   browserLocalPersistence,
   onAuthStateChanged,
-} from "firebase/auth"; //Firebase Google auth
+} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import homepage__picture from "../images/homepage__body-picture.jpeg";
@@ -16,12 +16,15 @@ import Header from "./Header";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import Preloader from "./Preloader";
+//import * as dotenv from "dotenv";
+//dotenv.config(path);
+//console.log(process.env);
 const CLIENT_ID = "cc4c47d7b9e44cf6a3030dde3ffeba1c";
 const CLIENT_SECRET = "0f685ecf082f4ccd8eb4f221c74de910";
-const REDIRECT_URI = "http://localhost:3000";
-const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
-const RESPONSE_TYPE = "token";
+// const REDIRECT_URI = "http://localhost:3000";
+// const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+// const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
+// const RESPONSE_TYPE = "token";
 const firebaseConfig = {
   apiKey: "AIzaSyC3UdBdWqiwNUb8KWyQXecunC0hEpPJnwA",
   authDomain: "spotify-project-ebr.firebaseapp.com",
@@ -31,15 +34,24 @@ const firebaseConfig = {
   appId: "1:64015018840:web:1f4316adf5c2ba4688d32d",
   measurementId: "G-FW7P3Q1T8H",
 };
-const app = initializeApp(firebaseConfig); // Initialize Firebase
-const analytics = getAnalytics(app); // Initialize Firebase
+// const firebaseConfig = {
+//   apiKey: process.env.REACT_APP_FIREBASE_KEY,
+//   authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
+//   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+//   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+//   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
+//   appId: process.env.REACT_APP_FIREBASE_APP_ID,
+//   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+// };
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 function App() {
   const [isPreloading, setIsPreloading] = React.useState(false);
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
   const [accessToken, setAccessToken] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [artists, setArtists] = useState([]);
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [currentUser, setCurrentUser] = React.useState({});
   const [visibleCount, setVisibleCount] = React.useState(3);
@@ -55,9 +67,7 @@ function App() {
   const handleChange = (event) => {
     setSearchInput(event.target.value);
   };
-  ////
 
-  //popup image
   const [selectedCardName, setSelectedCardName] = React.useState("");
   const [selectedCardPicture, setSelectedCardPicture] = React.useState("");
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
@@ -94,11 +104,9 @@ function App() {
       .then((data) => setAccessToken(data.access_token));
   }, []);
 
-  //Search function with Spotify API
   async function handleSearch() {
     console.log("searching for " + searchInput);
     setIsPreloading(true);
-    //get request tusing search to get artist ID
     const artistParams = {
       method: "GET",
       headers: {
@@ -106,7 +114,6 @@ function App() {
         Authorization: "Bearer " + accessToken,
       },
     };
-
     const artistID = await fetch(
       "https://api.spotify.com/v1/search?q=" + searchInput + "&type=artist",
       artistParams
@@ -122,7 +129,6 @@ function App() {
 
     if (artistID !== undefined) {
       console.log("Artis ID is" + artistID);
-      //get request with artist ID grab all the albums from that artist
       const returnedAlbums = await fetch(
         "https://api.spotify.com/v1/artists/" +
           artistID +
@@ -141,26 +147,18 @@ function App() {
   }
   //console.log(albums);
 
-  //Login Firebase
   const handleGoogleLogin = () => {
     const auth = getAuth();
-    //const provider = new GoogleAuthProvider(); //Firebase Google auth
-    //persistance
+
     setPersistence(auth, browserLocalPersistence)
       .then(() => {
         const provider = new GoogleAuthProvider();
-        // In memory persistence will be applied to the signed in Google user
-        // even though the persistence was set to 'none' and a page redirect
-        // occurred.
+
         signInWithPopup(auth, provider)
           .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
-            // The signed-in user info.
             const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            // ...
             //console.log(user);
             setCurrentUser(user);
           })
@@ -168,14 +166,10 @@ function App() {
             // Handle Errors here.
             const errorCode = error.code;
             const errorMessage = error.message;
-            // The email of the user's account used.
             const email = error.customData.email;
-            // The AuthCredential type that was used.
             const credential = GoogleAuthProvider.credentialFromError(error);
-            // ...
             console.error(error);
-          }); //Firebase Google auth
-        //return signInWithRedirect(auth, provider);
+          });
       })
       .catch((error) => {
         // Handle Errors here.
@@ -204,7 +198,6 @@ function App() {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
-        // Sign-out successful.
         setCurrentUser({});
         setUser({});
         setAlbums([]);
@@ -264,7 +257,6 @@ function App() {
         </div>
         //
       )}
-
       {currentUser.uid && (
         <div>
           <section className="profile">
@@ -305,7 +297,6 @@ function App() {
           <section className="preloader__container">
             {isPreloading ? <Preloader /> : ""}
           </section>
-
           {
             <section className="elements" id="elements">
               {visibleAlbums.map((album, i) => {

@@ -48,3 +48,27 @@
   color: #fff;
   text-decoration: none;
 }
+
+@media screen and (min-width: 885px) and (max-width: 1024px) {
+}
+
+@media screen and (min-width: 768px) and (max-width: 885px) {
+  .header__container {
+    margin: auto;
+    margin-left: 10px;
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header__container {
+    margin: auto;
+    margin-left: 5px;
+    display: flex;
+  }
+  .header__title {
+    font-size: 20px;
+    margin: auto;
+    margin-left: 30px;
+  }
+}
