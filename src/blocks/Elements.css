@@ -1,7 +1,7 @@
 .elements {
+  margin: 50px auto 30px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  margin: 80px auto 70px;
   row-gap: 20px;
   column-gap: 18px;
   max-width: 880px;
@@ -56,4 +56,41 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.element__button-container {
+  margin: auto;
+  grid-column: 1/-1;
+}
+
+.element__button {
+  background-image: linear-gradient(
+    to right,
+    #2f71e5 0%,
+    #12d8fa 51%,
+    #1fa2ff 100%
+  );
+}
+.element__button {
+  box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  margin: auto 0 auto 20px;
+  padding: 0;
+  transition: 0.5s;
+  width: 168px;
+  height: 30px;
+  background-size: 200% auto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.element__button:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
 }

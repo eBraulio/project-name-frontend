@@ -1,6 +1,6 @@
 .footer__container {
   display: flex;
-  margin-top: 80px;
+  margin-top: 30px;
   margin-bottom: 20px;
   border-top: 2px solid #54545465;
 }
@@ -21,7 +21,7 @@
 
 .footer__social-heading {
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-family: Inter;
   font-style: normal;
   font-weight: bold;
@@ -34,7 +34,7 @@
   list-style-type: none;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
   margin: 0;
   padding: 0;
 }

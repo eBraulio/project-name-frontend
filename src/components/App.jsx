@@ -42,7 +42,7 @@ function App() {
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [currentUser, setCurrentUser] = React.useState({});
-  ////
+  const [visibleCount, setVisibleCount] = React.useState(3);
   const [searchInput, setSearchInput] = useState("");
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -230,6 +230,16 @@ function App() {
     window.open("https://www.instagram.com/vanbrolok", "_blank");
   }
 
+  React.useEffect(() => {
+    setVisibleCount(3);
+  }, [albums]);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prevCount) => prevCount + 3);
+  };
+
+  const visibleAlbums = albums.slice(0, visibleCount);
+
   return (
     <div className="App">
       <Header handleGoogleLogout={handleGoogleLogout} />
@@ -298,7 +308,7 @@ function App() {
 
           {
             <section className="elements" id="elements">
-              {albums.map((album, i) => {
+              {visibleAlbums.map((album, i) => {
                 //console.log(album);
                 return (
                   <div className="template__element">
@@ -319,6 +329,13 @@ function App() {
                   </div>
                 );
               })}
+              {visibleCount < albums.length && (
+                <div className="element__button-container">
+                  <button onClick={handleLoadMore} className="element__button">
+                    Show More...
+                  </button>
+                </div>
+              )}
             </section>
           }
         </div>
