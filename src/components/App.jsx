@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+//import api from "../utils/SpotifyApi";
+import * as auth from "../utils/auth";
 import {
   getAuth,
   signOut,
@@ -16,15 +18,6 @@ import Header from "./Header";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import Preloader from "./Preloader";
-//import * as dotenv from "dotenv";
-//dotenv.config(path);
-//console.log(process.env);
-const CLIENT_ID = "cc4c47d7b9e44cf6a3030dde3ffeba1c";
-const CLIENT_SECRET = "0f685ecf082f4ccd8eb4f221c74de910";
-// const REDIRECT_URI = "http://localhost:3000";
-// const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-// const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
-// const RESPONSE_TYPE = "token";
 const firebaseConfig = {
   apiKey: "AIzaSyC3UdBdWqiwNUb8KWyQXecunC0hEpPJnwA",
   authDomain: "spotify-project-ebr.firebaseapp.com",
@@ -34,15 +27,6 @@ const firebaseConfig = {
   appId: "1:64015018840:web:1f4316adf5c2ba4688d32d",
   measurementId: "G-FW7P3Q1T8H",
 };
-// const firebaseConfig = {
-//   apiKey: process.env.REACT_APP_FIREBASE_KEY,
-//   authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
-//   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-//   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-//   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
-//   appId: process.env.REACT_APP_FIREBASE_APP_ID,
-//   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
-// };
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
@@ -56,6 +40,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [visibleCount, setVisibleCount] = React.useState(3);
   const [searchInput, setSearchInput] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     handleSearch(searchInput);
@@ -72,6 +57,73 @@ function App() {
   const [selectedCardPicture, setSelectedCardPicture] = React.useState("");
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
 
+  useEffect(() => {
+    fetch(auth.BASE_URL, auth.authParamSpotify)
+      .then((result) => result.json())
+      .then((data) => setAccessToken(data.access_token))
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (currentState) => {
+      if (currentState !== null) {
+        setCurrentUser(currentState);
+      } else {
+      }
+    });
+  }, []);
+
+  const handleGoogleLogin = () => {
+    auth.authGoogle();
+    //   const auth = getAuth();
+    //   setPersistence(auth, browserLocalPersistence)
+    //     .then(() => {
+    //       const provider = new GoogleAuthProvider();
+    //       signInWithPopup(auth, provider)
+    //         .then((result) => {
+    //           const credential = GoogleAuthProvider.credentialFromResult(result);
+    //           const token = credential.accessToken;
+    //           const user = result.user;
+    //           //console.log(user);
+    //           setCurrentUser(user);
+    //         })
+    //         .catch((error) => {
+    //           // Handle Errors here.
+    //           const errorCode = error.code;
+    //           const errorMessage = error.message;
+    //           const email = error.customData.email;
+    //           const credential = GoogleAuthProvider.credentialFromError(error);
+    //           console.error(error);
+    //         });
+    //     })
+    //     .catch((error) => {
+    //       // Handle Errors here.
+    //       const errorCode = error.code;
+    //       const errorMessage = error.message;
+    //     });
+    //   //persistance
+    //   return {
+    //     handleGoogleLogin,
+    //     currentUser,
+    //   };
+  };
+
+  const handleGoogleLogout = () => {
+    //console.log(currentUser);
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        setCurrentUser({});
+        setUser({});
+        setAlbums([]);
+        // console.log(currentUser);
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+
   function handleImageClick(album) {
     handleCardClick(album);
   }
@@ -87,23 +139,6 @@ function App() {
     setIsImagePopupOpen(false);
   }
 
-  useEffect(() => {
-    const authParam = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body:
-        "grant_type=client_credentials&client_id=" +
-        CLIENT_ID +
-        "&client_secret=" +
-        CLIENT_SECRET,
-    };
-    fetch("https://accounts.spotify.com/api/token", authParam)
-      .then((result) => result.json())
-      .then((data) => setAccessToken(data.access_token));
-  }, []);
-
   async function handleSearch() {
     console.log("searching for " + searchInput);
     setIsPreloading(true);
@@ -114,6 +149,7 @@ function App() {
         Authorization: "Bearer " + accessToken,
       },
     };
+
     const artistID = await fetch(
       "https://api.spotify.com/v1/search?q=" + searchInput + "&type=artist",
       artistParams
@@ -146,67 +182,6 @@ function App() {
     }
   }
   //console.log(albums);
-
-  const handleGoogleLogin = () => {
-    const auth = getAuth();
-
-    setPersistence(auth, browserLocalPersistence)
-      .then(() => {
-        const provider = new GoogleAuthProvider();
-
-        signInWithPopup(auth, provider)
-          .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            const user = result.user;
-            //console.log(user);
-            setCurrentUser(user);
-          })
-          .catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            const email = error.customData.email;
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            console.error(error);
-          });
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
-    //persistance
-    return {
-      handleGoogleLogin,
-      currentUser,
-    };
-  };
-
-  useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (currentState) => {
-      if (currentState !== null) {
-        setCurrentUser(currentState);
-      } else {
-      }
-    });
-  }, []);
-
-  const handleGoogleLogout = () => {
-    //console.log(currentUser);
-    const auth = getAuth();
-    signOut(auth)
-      .then(() => {
-        setCurrentUser({});
-        setUser({});
-        setAlbums([]);
-        // console.log(currentUser);
-      })
-      .catch((error) => {
-        // An error happened.
-      });
-  };
 
   function handleGitHubClick() {
     window.open("https://github.com/eBraulio", "_blank");
