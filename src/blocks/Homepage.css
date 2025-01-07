@@ -32,7 +32,12 @@
 }
 
 .Homepage__body-title {
-  margin: 20px auto;
+  margin: 20px auto 20px 10px;
+}
+
+.Homepage__body-project {
+  margin: 20px 10px;
+  font-size: 16px;
 }
 
 .Homepage__button-login {
@@ -76,27 +81,34 @@
   }
 }
 
-@media screen and (min-width: 768px) and (max-width: 885px) {
+@media screen and (min-width: 831px) and (max-width: 885px) {
   .Homepage__body-description {
     margin: auto;
     margin-left: 20x;
+    display: flex;
+    flex-direction: column;
   }
 
   .Homepage__body-cover {
-    max-width: 350px;
+    max-width: 500px;
     margin: auto;
     margin-right: 20px;
     box-shadow: 30px 0px 150px #0395f7a2;
     filter: brightness(90%);
   }
+  .Homepage__body-project {
+    margin: 20px 10px;
+    font-size: 15px;
+  }
 
   .Homepage__button-login {
     width: 250px;
     height: 50px;
+    margin: 40px auto;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 830px) {
   .Homepage__body {
     display: flex;
     flex-direction: column;
@@ -105,13 +117,20 @@
     margin: 5px auto;
     font-size: 18px;
   }
+
+  .Homepage__body-project {
+    margin: 20px 10px;
+    font-size: 14px;
+  }
   .Homepage__body-description {
     margin: auto;
     margin-left: 20x;
+    display: flex;
+    flex-direction: column;
   }
 
   .Homepage__body-cover {
-    max-width: 300px;
+    max-width: 80%;
     margin: auto;
     box-shadow: 30px 0px 150px #0395f7a2;
     filter: brightness(90%);
