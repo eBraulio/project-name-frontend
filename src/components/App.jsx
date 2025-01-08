@@ -1,46 +1,23 @@
 import React, { useEffect, useState } from "react";
-//import api from "../utils/SpotifyApi";
-import * as auth from "../utils/auth";
-import {
-  getAuth,
-  signOut,
-  signInWithPopup,
-  GoogleAuthProvider,
-  setPersistence,
-  inMemoryPersistence,
-  browserLocalPersistence,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { searchAlbumsByArtist } from "../utils/SpotifyApi";
+import { fetchSpotifyToken } from "../utils/auth";
+import { loginWithGoogle, logout, onAuthChange } from "../utils/FirebaseApi";
 import homepage__picture from "../images/homepage__body-picture.jpeg";
 import Header from "./Header";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import Preloader from "./Preloader";
-const firebaseConfig = {
-  apiKey: "AIzaSyC3UdBdWqiwNUb8KWyQXecunC0hEpPJnwA",
-  authDomain: "spotify-project-ebr.firebaseapp.com",
-  projectId: "spotify-project-ebr",
-  storageBucket: "spotify-project-ebr.firebasestorage.app",
-  messagingSenderId: "64015018840",
-  appId: "1:64015018840:web:1f4316adf5c2ba4688d32d",
-  measurementId: "G-FW7P3Q1T8H",
-};
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
 function App() {
   const [isPreloading, setIsPreloading] = React.useState(false);
-  // const [token, setToken] = useState("");
   const [accessToken, setAccessToken] = useState("");
-  // const [searchTerm, setSearchTerm] = useState("");
-  // const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [currentUser, setCurrentUser] = React.useState({});
   const [visibleCount, setVisibleCount] = React.useState(3);
   const [searchInput, setSearchInput] = useState("");
-
+  const [selectedCardName, setSelectedCardName] = React.useState("");
+  const [selectedCardPicture, setSelectedCardPicture] = React.useState("");
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
     handleSearch(searchInput);
@@ -53,75 +30,48 @@ function App() {
     setSearchInput(event.target.value);
   };
 
-  const [selectedCardName, setSelectedCardName] = React.useState("");
-  const [selectedCardPicture, setSelectedCardPicture] = React.useState("");
-  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
-
   useEffect(() => {
-    fetch(auth.BASE_URL, auth.authParamSpotify)
-      .then((result) => result.json())
-      .then((data) => setAccessToken(data.access_token))
-      .catch((err) => console.log(err));
+    const getAccessToken = async () => {
+      try {
+        const token = await fetchSpotifyToken();
+        setAccessToken(token);
+      } catch (error) {
+        console.error("Error getting access token:", error);
+      }
+    };
+
+    getAccessToken();
   }, []);
 
   useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (currentState) => {
-      if (currentState !== null) {
-        setCurrentUser(currentState);
+    const unsubscribe = onAuthChange((user) => {
+      if (user) {
+        setCurrentUser(user);
       } else {
+        setCurrentUser({});
       }
     });
+
+    return () => unsubscribe();
   }, []);
 
-  const handleGoogleLogin = () => {
-    auth.authGoogle();
-    //   const auth = getAuth();
-    //   setPersistence(auth, browserLocalPersistence)
-    //     .then(() => {
-    //       const provider = new GoogleAuthProvider();
-    //       signInWithPopup(auth, provider)
-    //         .then((result) => {
-    //           const credential = GoogleAuthProvider.credentialFromResult(result);
-    //           const token = credential.accessToken;
-    //           const user = result.user;
-    //           //console.log(user);
-    //           setCurrentUser(user);
-    //         })
-    //         .catch((error) => {
-    //           // Handle Errors here.
-    //           const errorCode = error.code;
-    //           const errorMessage = error.message;
-    //           const email = error.customData.email;
-    //           const credential = GoogleAuthProvider.credentialFromError(error);
-    //           console.error(error);
-    //         });
-    //     })
-    //     .catch((error) => {
-    //       // Handle Errors here.
-    //       const errorCode = error.code;
-    //       const errorMessage = error.message;
-    //     });
-    //   //persistance
-    //   return {
-    //     handleGoogleLogin,
-    //     currentUser,
-    //   };
+  const handleGoogleLogin = async () => {
+    try {
+      const user = await loginWithGoogle();
+      setCurrentUser(user);
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
-  const handleGoogleLogout = () => {
-    //console.log(currentUser);
-    const auth = getAuth();
-    signOut(auth)
-      .then(() => {
-        setCurrentUser({});
-        setUser({});
-        setAlbums([]);
-        // console.log(currentUser);
-      })
-      .catch((error) => {
-        // An error happened.
-      });
+  const handleGoogleLogout = async () => {
+    try {
+      await logout();
+      setCurrentUser({});
+      setAlbums([]);
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   function handleImageClick(album) {
@@ -140,48 +90,20 @@ function App() {
   }
 
   async function handleSearch() {
-    console.log("searching for " + searchInput);
+    console.log("Searching for albums:", searchInput);
     setIsPreloading(true);
-    const artistParams = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    };
-
-    const artistID = await fetch(
-      "https://api.spotify.com/v1/search?q=" + searchInput + "&type=artist",
-      artistParams
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setIsPreloading(false);
-        return data.artists.items[0].id;
-      })
-      .catch(function (e) {
-        console.log("error is" + e);
-      });
-
-    if (artistID !== undefined) {
-      console.log("Artis ID is" + artistID);
-      const returnedAlbums = await fetch(
-        "https://api.spotify.com/v1/artists/" +
-          artistID +
-          "/albums" +
-          "?include_groups=album&market=ES&limit=15",
-        artistParams
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setAlbums(data.items);
-        });
-    } else {
-      console.log("Artis not found, Dummy ID is" + "5aMPb0lNHL7cQe6oICdcTt");
+    try {
+      const returnedAlbums = await searchAlbumsByArtist(
+        searchInput,
+        accessToken
+      );
+      setAlbums(returnedAlbums);
+    } catch (error) {
+      console.error("Error during search:", error);
+    } finally {
+      setIsPreloading(false);
     }
   }
-  //console.log(albums);
 
   function handleGitHubClick() {
     window.open("https://github.com/eBraulio", "_blank");
