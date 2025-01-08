@@ -1,6 +1,6 @@
-import linkedin__logo from "../images/linkedin_640.png";
-import instagram__logo from "../images/instagram_640.png";
-import github__logo from "../images/github__640.png";
+import linkedin__logo from "../../images/linkedin_640.png";
+import instagram__logo from "../../images/instagram_640.png";
+import github__logo from "../../images/github__640.png";
 
 export default function Footer({
   onGitHubClick,

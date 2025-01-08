@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { searchAlbumsByArtist } from "../utils/SpotifyApi";
-import { fetchSpotifyToken } from "../utils/auth";
-import { loginWithGoogle, logout, onAuthChange } from "../utils/FirebaseApi";
-import Header from "./Header";
-import Home from "./Home";
-import Navigation from "./Navigation";
-import Main from "./Main";
-import Footer from "./Footer";
-import ImagePopup from "./ImagePopup";
-import Preloader from "./Preloader";
+import { searchAlbumsByArtist } from "../../utils/SpotifyApi";
+import { fetchSpotifyToken } from "../../utils/auth";
+import { loginWithGoogle, logout, onAuthChange } from "../../utils/FirebaseApi";
+import Header from "../Header/Header";
+import Home from "../Home/Home";
+import Navigation from "../Navigation/Navigation";
+import Main from "../Main/Main";
+import Footer from "../Footer/Footer";
+import ImagePopup from "../ImagePopup/ImagePopup";
+import Preloader from "../Preloader/Preloader";
 
 function App() {
   const [isPreloading, setIsPreloading] = React.useState(false);

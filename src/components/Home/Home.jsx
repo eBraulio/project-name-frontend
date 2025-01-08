@@ -1,5 +1,5 @@
 import React from "react";
-import homepage__picture from "../images/homepage__body-picture.jpeg";
+import homepage__picture from "../../images/homepage__body-picture.jpeg";
 
 function Home({ handleGoogleLogin }) {
   return (

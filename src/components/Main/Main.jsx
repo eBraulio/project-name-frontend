@@ -2,7 +2,6 @@ import React from "react";
 
 function Main({ albums, visibleCount, handleLoadMore, handleImageClick }) {
   const visibleAlbums = albums.slice(0, visibleCount);
-
   return (
     <section className="elements" id="elements">
       {visibleAlbums.map((album, i) => (
