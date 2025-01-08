@@ -29,6 +29,20 @@ export const authParamSpotify = {
     CLIENT_SECRET,
 };
 
+export const fetchSpotifyToken = async () => {
+  try {
+    const response = await fetch(BASE_URL, authParamSpotify);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Spotify token: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.access_token;
+  } catch (error) {
+    console.error("Error fetching Spotify token:", error);
+    throw error;
+  }
+};
+
 //Google Authentication API
 export const authGoogle = () => {
   const auth = getAuth();
