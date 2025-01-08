@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { searchAlbumsByArtist } from "../utils/SpotifyApi";
 import { fetchSpotifyToken } from "../utils/auth";
 import { loginWithGoogle, logout, onAuthChange } from "../utils/FirebaseApi";
-import homepage__picture from "../images/homepage__body-picture.jpeg";
 import Header from "./Header";
+import Home from "./Home";
+import Navigation from "./Navigation";
+import Main from "./Main";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import Preloader from "./Preloader";
@@ -128,119 +130,29 @@ function App() {
     setVisibleCount((prevCount) => prevCount + 3);
   };
 
-  const visibleAlbums = albums.slice(0, visibleCount);
-
   return (
     <div className="App">
       <Header handleGoogleLogout={handleGoogleLogout} />
-      {!currentUser.uid && (
-        <div className="Homepage__container">
-          <div className="Homepage__body">
-            <div className="Homepage__body-description">
-              <p className="Homepage__body-project">
-                This WEB site has been developed as the Final Project (Type 1 –
-                Frontend connected to an external API) of the Full-stack WEB
-                Developer bootcamp, by TripleTen.{" "}
-              </p>
-              <p className="Homepage__body-project">
-                The site has been built using React + Vite. The application is
-                deployed using Firebase with Google authentication; and
-                connected to the Spotify API. All the project is accessible via
-                GitHub.
-              </p>
-              <p className="Homepage__body-project">
-                Any feedback is greatly appreciated and can be sent via the
-                contact channels (Github/LinkedIn).
-              </p>
-              <h2 className="Homepage__body-title">Let's try it!</h2>
-              <button
-                onClick={handleGoogleLogin}
-                className="Homepage__button-login"
-              >
-                Login using Google
-              </button>
-            </div>
-            <img
-              src={homepage__picture}
-              alt={"homepage picture" || ""}
-              className="Homepage__body-cover"
-            />
-          </div>
-        </div>
-        //
-      )}
+      {!currentUser.uid && <Home handleGoogleLogin={handleGoogleLogin} />}
+
       {currentUser.uid && (
         <div>
-          <section className="profile">
-            <div className="profile__avatar">
-              <img
-                className="profile__avatar-image"
-                src={currentUser.photoURL || ""}
-                alt={currentUser.displayName || ""}
-              />
-            </div>
-            <div className="profile__info">
-              <div className="profile__info-container">
-                <p className="profile__name">Hey, {currentUser.displayName}!</p>
-                <button
-                  onClick={handleGoogleLogout}
-                  className="profile__logout-button"
-                >
-                  Logout
-                </button>
-              </div>
-              <form className="profile__search" onSubmit={handleSubmit}>
-                <input
-                  required
-                  type="text"
-                  minLength="2"
-                  maxLength="50"
-                  className="profile__search-input"
-                  placeholder="Type any Artist to check its Albums"
-                  onChange={handleChange}
-                ></input>
-                <button type="submit" className="profile__search-button">
-                  {" "}
-                  Search!{" "}
-                </button>
-              </form>
-            </div>
-          </section>
+          <Navigation
+            currentUser={currentUser}
+            handleGoogleLogout={handleGoogleLogout}
+            handleSubmit={handleSubmit}
+            searchInput={searchInput}
+            handleChange={handleChange}
+          />
           <section className="preloader__container">
             {isPreloading ? <Preloader /> : ""}
           </section>
-          {
-            <section className="elements" id="elements">
-              {visibleAlbums.map((album, i) => {
-                //console.log(album);
-                return (
-                  <div className="template__element">
-                    <div className="element__image-container">
-                      <img
-                        src={album.images[0].url}
-                        alt={album.name + "," + " (" + album.release_date + ")"}
-                        className="element__image"
-                        onClick={handleImageClick}
-                      />
-                    </div>
-                    <div className="element__description">
-                      <h2 className="element__text">{album.name}</h2>
-                      <span className="element__release">
-                        Release date: ({album.release_date})
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-              {visibleCount < albums.length && (
-                <div className="element__button-container">
-                  <button onClick={handleLoadMore} className="element__button">
-                    Show More...
-                  </button>
-                </div>
-              )}
-            </section>
-          }
+          <Main
+            albums={albums}
+            visibleCount={visibleCount}
+            handleLoadMore={handleLoadMore}
+            handleImageClick={handleImageClick}
+          />
         </div>
       )}
       <Footer
