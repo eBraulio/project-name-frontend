@@ -13,11 +13,11 @@ export default function Footer({
       <div className="footer__container">
         <h2 className="footer__copyright">&#169;2025 - Braulio Bañuelos</h2>
         <button onClick={onAboutClick} className="element__button-about">
-          About author
+          About the Author
         </button>
       </div>
       <div className="footer__social">
-        <h2 className="footer__social-heading">Author Contact</h2>
+        <h2 className="footer__social-heading">Contact Data</h2>
         <ul className="footer__list">
           <li className="footer__list-item">
             <a className="footer__social-link" onClick={onGitHubClick}>

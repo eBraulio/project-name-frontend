@@ -9,22 +9,23 @@ import {
   browserLocalPersistence,
 } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
-
 const firebaseConfig = {
-  apiKey: "AIzaSyC3UdBdWqiwNUb8KWyQXecunC0hEpPJnwA",
-  authDomain: "spotify-project-ebr.firebaseapp.com",
-  projectId: "spotify-project-ebr",
-  storageBucket: "spotify-project-ebr.appspot.com",
-  messagingSenderId: "64015018840",
-  appId: "1:64015018840:web:1f4316adf5c2ba4688d32d",
-  measurementId: "G-FW7P3Q1T8H",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
+//Firebase auth and initialization
 const firebaseApp = initializeApp(firebaseConfig);
 const analytics = getAnalytics(firebaseApp);
 
 const auth = getAuth(firebaseApp);
 
+//Loging with Google
 export const loginWithGoogle = async () => {
   try {
     setPersistence(auth, browserLocalPersistence);
@@ -37,6 +38,7 @@ export const loginWithGoogle = async () => {
   }
 };
 
+//Logout
 export const logout = async () => {
   try {
     await signOut(auth);

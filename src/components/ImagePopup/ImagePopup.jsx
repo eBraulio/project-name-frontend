@@ -2,17 +2,14 @@ import React, { useEffect, useRef } from "react";
 
 export default function ImagePopup({ link, name, onClose, isOpen }) {
   useEffect(() => {
-    // Manejador para la tecla Escape
     const handleEscClose = (e) => {
       if (e.key === "Escape") {
         onClose();
       }
     };
 
-    // Añadir event listener para la tecla Escape
     document.addEventListener("keydown", handleEscClose);
 
-    // Limpieza del event listener cuando el componente se desmonte
     return () => {
       document.removeEventListener("keydown", handleEscClose);
     };
