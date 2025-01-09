@@ -8,6 +8,7 @@ import Navigation from "../Navigation/Navigation";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
 import ImagePopup from "../ImagePopup/ImagePopup";
+import AboutPopup from "../About/AboutPopup";
 import Preloader from "../Preloader/Preloader";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
   const [selectedCardName, setSelectedCardName] = React.useState("");
   const [selectedCardPicture, setSelectedCardPicture] = React.useState("");
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
     handleSearch(searchInput);
@@ -89,6 +91,7 @@ function App() {
 
   function closeAllPopups() {
     setIsImagePopupOpen(false);
+    setIsAboutPopupOpen(false);
   }
 
   async function handleSearch() {
@@ -130,6 +133,10 @@ function App() {
     setVisibleCount((prevCount) => prevCount + 3);
   };
 
+  const handleAboutClick = () => {
+    setIsAboutPopupOpen(true);
+  };
+
   return (
     <div className="App">
       <Header handleGoogleLogout={handleGoogleLogout} />
@@ -159,6 +166,7 @@ function App() {
         onGitHubClick={handleGitHubClick}
         onLinkedinClick={handleLinkedinClick}
         onInstagramClick={handleInstagramClick}
+        onAboutClick={handleAboutClick}
       />
       <ImagePopup
         isOpen={isImagePopupOpen}
@@ -166,6 +174,7 @@ function App() {
         name={selectedCardName}
         onClose={closeAllPopups}
       />
+      <AboutPopup isOpen={isAboutPopupOpen} onClose={closeAllPopups} />
     </div>
   );
 }
