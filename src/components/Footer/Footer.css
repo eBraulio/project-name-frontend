@@ -1,8 +1,14 @@
-.footer__container {
+.footer {
   display: flex;
   margin-top: 30px;
   margin-bottom: 20px;
   border-top: 2px solid #54545465;
+}
+
+.footer__container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto auto auto;
 }
 
 .footer__copyright {
@@ -10,13 +16,46 @@
   font-size: 18px;
   font-weight: 400;
   line-height: 22px;
-
   color: #6f6d6d;
+  margin: 0 auto 10px auto;
+}
+
+.element__button-about {
+  background-image: linear-gradient(
+    to right,
+    #2f71e5 0%,
+    #12d8fa 51%,
+    #1fa2ff 100%
+  );
+}
+.element__button-about {
+  box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
   margin: 0 auto auto auto;
+  padding: 0;
+  transition: 0.5s;
+  width: 168px;
+  height: 30px;
+  background-size: 200% auto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.element__button-about:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
 }
 
 .footer__social {
-  margin: auto 0;
+  padding: 0;
+  margin: auto 0 auto auto;
+  width: 200px;
 }
 
 .footer__social-heading {
@@ -37,9 +76,6 @@
   gap: 10px;
   margin: 0;
   padding: 0;
-}
-
-.footer__list-item {
 }
 
 .footer__social-link {
@@ -64,20 +100,20 @@
 }
 
 @media screen and (min-width: 885px) and (max-width: 1024px) {
-  .footer__container {
+  .footer {
     margin-right: 10px;
   }
 }
 
 @media screen and (min-width: 768px) and (max-width: 885px) {
-  .footer__container {
+  .footer {
     margin-right: 20px;
     margin-left: 10px;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .footer__container {
+  .footer {
     margin-right: 10px;
     margin-left: 10px;
   }
@@ -85,6 +121,17 @@
     max-width: 282px;
     height: 14px;
     font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .element__button-about {
+    width: 120px;
+  }
+
+  .footer__social {
+    padding: 0;
+    margin: auto 0 auto auto;
+    max-width: 110px;
   }
 
   .footer__social-heading {
