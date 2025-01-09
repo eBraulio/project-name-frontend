@@ -1,3 +1,4 @@
+//Async function to search albums
 export async function searchAlbumsByArtist(searchInput, accessToken) {
   const artistParams = {
     method: "GET",
@@ -19,7 +20,7 @@ export async function searchAlbumsByArtist(searchInput, accessToken) {
     const artistID = artistData.artists?.items?.[0]?.id;
 
     if (!artistID) {
-      throw new Error("Artist not found");
+      throw new Error("Artist was not found");
     }
 
     const albumsResponse = await fetch(

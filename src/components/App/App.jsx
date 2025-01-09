@@ -26,10 +26,6 @@ function App() {
     event.preventDefault();
     handleSearch(searchInput);
   };
-  const handleButtonClick = (event) => {
-    event.preventDefault();
-    handleSearch(searchInput);
-  };
   const handleChange = (event) => {
     setSearchInput(event.target.value);
   };
@@ -85,8 +81,6 @@ function App() {
     setIsImagePopupOpen(true);
     setSelectedCardName(album.target.alt);
     setSelectedCardPicture(album.target.src);
-    //console.log(album.target.src);
-    //console.log(album.target.alt);
   }
 
   function closeAllPopups() {
