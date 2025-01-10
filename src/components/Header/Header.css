@@ -1,0 +1,74 @@
+.header {
+  margin: 50px auto;
+}
+
+.header__container {
+  margin: auto;
+  margin-left: 0;
+  display: flex;
+}
+
+.header__title {
+  margin: auto;
+  margin-left: 30px;
+}
+
+.header__logo {
+  max-width: 70px;
+  max-height: 70px;
+}
+
+.header__button-logout {
+  background-image: linear-gradient(
+    to right,
+    #2f71e5 0%,
+    #12d8fa 51%,
+    #1fa2ff 100%
+  );
+}
+.header__button-logout {
+  box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  margin: 0 0 auto auto;
+  transition: 0.5s;
+  width: 140px;
+  height: 50px;
+  background-size: 200% auto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.header__button-logout:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+@media screen and (min-width: 885px) and (max-width: 1024px) {
+}
+
+@media screen and (min-width: 768px) and (max-width: 885px) {
+  .header__container {
+    margin: auto;
+    margin-left: 10px;
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header__container {
+    margin: auto;
+    margin-left: 5px;
+    display: flex;
+  }
+  .header__title {
+    font-size: 20px;
+    margin: auto;
+    margin-left: 30px;
+  }
+}

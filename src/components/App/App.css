@@ -1,0 +1,17 @@
+#root {
+  background-color: #0f0f0f;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+}
+
+.App {
+  max-width: 880px;
+  margin: auto;
+  font-family: Inter;
+  color: #fff;
+  min-width: 320px;
+}
