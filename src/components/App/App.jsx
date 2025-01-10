@@ -161,6 +161,7 @@ function App() {
         onLinkedinClick={handleLinkedinClick}
         onInstagramClick={handleInstagramClick}
         onAboutClick={handleAboutClick}
+        user={currentUser}
       />
       <ImagePopup
         isOpen={isImagePopupOpen}
@@ -168,6 +169,7 @@ function App() {
         name={selectedCardName}
         onClose={closeAllPopups}
       />
+
       <AboutPopup isOpen={isAboutPopupOpen} onClose={closeAllPopups} />
     </div>
   );
