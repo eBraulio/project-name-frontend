@@ -1,0 +1,249 @@
+.profile {
+  display: flex;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.profile__avatar {
+  position: relative;
+  max-width: 120px;
+}
+
+.profile__avatar-image {
+  max-width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: -30px 0px 100px #0395f7a2;
+}
+
+.profile__avatar:hover .profile__avatar-image {
+  filter: brightness(100%);
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.profile__info {
+  width: 100%;
+  margin: auto auto auto 20px;
+}
+
+.profile__info-container {
+  display: flex;
+  align-items: baseline;
+  font-family: Inter;
+}
+
+.profile__name {
+  align-items: baseline;
+  font-family: Inter;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 133%;
+  text-align: left;
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  box-sizing: border-box;
+  max-width: 600px;
+  width: 100%;
+  padding: 5px;
+}
+
+/* Logout button */
+.profile__logout-button {
+  background-image: linear-gradient(
+    to right,
+    #2f71e5 0%,
+    #12d8fa 51%,
+    #1fa2ff 100%
+  );
+}
+.profile__logout-button {
+  box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  margin: auto 0 auto 20px;
+  padding: 0;
+  transition: 0.5s;
+  width: 168px;
+  height: 50px;
+  background-size: 200% auto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.profile__logout-button:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Search bar */
+.profile__search {
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  margin: 16px 0 auto 0;
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  position: relative;
+}
+
+.profile__search-input {
+  height: 44px;
+  border-radius: 100px;
+  padding: 0px;
+  padding-left: 24px;
+  border: 3px solid #b6bcbf;
+  width: 55%;
+}
+
+.profile__search-input:hover {
+  border: 3px solid #0395f7a2;
+  transition: 1s;
+}
+
+.profile__search-input::placeholder {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  color: #b6bcbf;
+}
+
+/* search button */
+
+.profile__search-button {
+  background-image: linear-gradient(
+    to right,
+    #2f71e5 0%,
+    #12d8fa 51%,
+    #1fa2ff 100%
+  );
+}
+
+.profile__search-button {
+  box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+
+  transition: 0.5s;
+  width: 168px;
+  height: 50px;
+  background-size: 200% auto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+
+  position: absolute;
+  left: 45%;
+  top: 0;
+  overflow: visible;
+}
+
+.profile__search-button:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+@media screen and (min-width: 885px) and (max-width: 1024px) {
+  .profile {
+    align-items: center;
+    margin: 42px 10px 36px;
+    width: 100%;
+  }
+
+  .profile__logout-button {
+    margin: auto 15px auto 0;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 885px) {
+  .profile {
+    align-items: center;
+    margin: 42px 10px 36px;
+    width: 100%;
+  }
+  .profile__logout-button {
+    margin: auto 25px auto 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .profile {
+    flex-direction: column;
+  }
+  .profile__info-container {
+    flex-direction: column;
+  }
+  .profile__avatar {
+    position: relative;
+    max-width: 120px;
+    margin: auto auto 20px 20px;
+  }
+
+  .profile__avatar-image {
+    max-width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: -30px 0px 100px #0395f7a2;
+  }
+  .profile__name {
+    align-items: baseline;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 133%;
+    text-align: left;
+    margin: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    box-sizing: border-box;
+    max-width: 600px;
+    width: 100%;
+    padding: 5px;
+  }
+  .profile__logout-button {
+    margin: auto;
+    margin-left: 0;
+    width: 150px;
+    height: 40px;
+    font-size: 16px;
+  }
+  .profile__search-input {
+    height: 32px;
+    padding-left: 12px;
+    font-size: 14px;
+    width: 75%;
+  }
+  .profile__search-input::placeholder {
+    font-size: 12px;
+  }
+  .profile__search-button {
+    width: 80px;
+    height: 40px;
+    font-size: 14px;
+
+    position: absolute;
+    left: 68%;
+    top: 0;
+    overflow: visible;
+  }
+}

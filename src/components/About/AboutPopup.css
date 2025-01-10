@@ -1,0 +1,106 @@
+.popup__about-content {
+  position: relative;
+  display: flex;
+  /* flex-direction: column; */
+  box-shadow: 60px -50px 1000px #0099ff;
+}
+
+.popup__close-about {
+  top: -41px;
+  right: -41px;
+}
+
+.popup__about-image {
+  max-width: 65vw;
+  max-height: 65vh;
+  z-index: 1000;
+  filter: grayscale(50%);
+  border-radius: 40px 10px 10px 40px;
+}
+
+.popup__about-text {
+  background-color: unset;
+  margin: auto 20px 40px 20px;
+  padding: 0;
+  max-width: 30vw;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  z-index: 1000;
+  color: #ffffff;
+}
+
+@media screen and (min-width: 500px) and (max-width: 790px) {
+  .popup__about-image {
+    max-width: 55vw;
+    max-height: 55vh;
+  }
+
+  .popup__about-text {
+    background-color: unset;
+    margin: auto 20px 40px 20px;
+    padding: 0;
+    max-width: 30vw;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    z-index: 1000;
+    color: #ffffff;
+  }
+}
+
+@media screen and (min-width: 640px) and (max-width: 720px) {
+  .popup__about-content {
+    position: relative;
+    display: flex;
+    /* flex-direction: column; */
+    box-shadow: 60px -50px 1000px #0099ff;
+  }
+  .popup__about-image {
+    max-width: 55vw;
+    max-height: 55vh;
+  }
+
+  .popup__about-text {
+    background-color: unset;
+    margin: auto 20px 40px 20px;
+    padding: 0;
+    max-width: 30vw;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    z-index: 1000;
+    color: #ffffff;
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .popup__about-content {
+    flex-direction: column;
+  }
+  .popup__about-image {
+    max-width: 50vw;
+    max-height: 50vh;
+    border-radius: 10px;
+    margin: auto;
+  }
+  .popup__about-text {
+    background-color: unset;
+    margin: 0 20px 40px 20px;
+    padding: 0;
+    max-width: 50vw;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 14px;
+    z-index: 1000;
+    color: #ffffff;
+  }
+}
