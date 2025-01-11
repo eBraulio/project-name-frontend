@@ -30,7 +30,7 @@ export default function aboutPopup({ link, name, onClose, isOpen }) {
         ></button>
         <img className="popup__about-image" src={imagePath} alt={name || "."} />
         <p className="popup__about-text">
-          This is Braulio from Mexico! I'm 36, and have been working 10 years
+          This is Braulio from CDMX! I'm 36, and have been working 10 years
           non-stop as a Virtual Analysis engineer for an automotive OEM.
           <br></br>
           <br></br>
@@ -38,9 +38,12 @@ export default function aboutPopup({ link, name, onClose, isOpen }) {
           forward to start working in the Web Dev world!
           <br></br>
           <br></br>
-          As a Junior full stack WEB developer, I'd like to work on part-time or
-          freelance positions to build experience, while I continue working on
-          my current position; but I'm open to any posibility!
+          As a Junior full stack WEB developer, I'd like to work as a part-time
+          or freelance developer, while I continue working on my current
+          position; but I'm open to any posibility.
+          <br></br>
+          <br></br>
+          Any feedback about this site is greatly appreciated.
         </p>
       </div>
     </div>

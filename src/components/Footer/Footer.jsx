@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import linkedin__logo from "../../images/linkedin_640.png";
 import instagram__logo from "../../images/instagram_640.png";
 import github__logo from "../../images/github__640.png";
@@ -7,14 +8,19 @@ export default function Footer({
   onLinkedinClick,
   onInstagramClick,
   onAboutClick,
+  user,
 }) {
+  console.log(user);
   return (
     <footer className="footer">
       <div className="footer__container">
         <h2 className="footer__copyright">&#169;2025 - Braulio Bañuelos</h2>
-        <button onClick={onAboutClick} className="element__button-about">
-          About the Author
-        </button>
+
+        {user.uid && (
+          <button onClick={onAboutClick} className="element__button-about">
+            About the Author
+          </button>
+        )}
       </div>
       <div className="footer__social">
         <h2 className="footer__social-heading">Contact Data</h2>
